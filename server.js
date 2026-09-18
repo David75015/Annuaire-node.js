@@ -255,6 +255,21 @@ app.get('/api/contacts', async (req, res) => {
   }
 });
 
+// Supprimer une vCard (ne supprime pas les fichiers statiques dans le dépôt)
+app.delete('/api/vcf/:filename', async (req, res) => {
+  const filename = path.basename(String(req.params.filename || ''));
+  if (!filename.toLowerCase().endsWith('.vcf')) return res.status(400).send('Nom de fichier invalide');
+
+  try {
+    const result = await pool.query('DELETE FROM contacts WHERE filename = $1 RETURNING filename', [filename]);
+    if (!result.rowCount) return res.status(404).send('VCF introuvable');
+    res.json({ ok: true, filename: result.rows[0].filename });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Erreur serveur');
+  }
+});
+
 app.use(express.static(ROOT));
 
 initDatabase()

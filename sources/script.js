@@ -43,6 +43,28 @@ function renderList(filter = '') {
     a.textContent = 'Télécharger';
     right.appendChild(a);
 
+    const delBtn = document.createElement('button');
+    delBtn.className = 'delete-btn';
+    delBtn.type = 'button';
+    delBtn.textContent = 'Supprimer';
+    delBtn.addEventListener('click', async () => {
+      if (!confirm(`Supprimer « ${filename} » ? Cette action est irréversible.`)) return;
+      try {
+        const res = await fetch('/api/vcf/' + encodeURIComponent(filename), { method: 'DELETE' });
+        if (!res.ok) {
+          alert('Erreur : ' + await res.text());
+          return;
+        }
+        await loadVcfList();
+        const cur = document.getElementById('search')?.value || '';
+        renderList(cur);
+      } catch (err) {
+        console.error(err);
+        alert('Erreur réseau lors de la suppression.');
+      }
+    });
+    right.appendChild(delBtn);
+
     li.append(left, right);
     list.appendChild(li);
   });
