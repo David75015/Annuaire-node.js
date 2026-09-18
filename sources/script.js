@@ -49,9 +49,35 @@ function renderList(filter = '') {
 }
 
 async function loadVcfList() {
+  // Première tentative : lister directement le dossier `documents/` (si le serveur renvoie un index HTML)
   try {
-    const res = await fetch('/api/vcf-list', { cache: 'no-store' });
-    const data = await res.json();
+    const res = await fetch('documents/', { cache: 'no-store' });
+    const ct = res.headers.get('content-type') || '';
+    if (res.ok && ct.includes('text/html')) {
+      const html = await res.text();
+      try {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        const links = Array.from(doc.querySelectorAll('a')).map(a => a.getAttribute('href'));
+        const files = links
+          .filter(h => h && h.toLowerCase().endsWith('.vcf'))
+          .map(h => decodeURIComponent(h.split('/').pop()));
+        if (files.length) {
+          vcfFiles = files;
+          return;
+        }
+      } catch (e) {
+        // fallthrough to API
+      }
+    }
+  } catch (err) {
+    // ignore and fallback to API
+  }
+
+  // Fallback : charger la liste via l'API (DB)
+  try {
+    const res2 = await fetch('/api/vcf-list', { cache: 'no-store' });
+    const data = await res2.json();
     vcfFiles = Array.isArray(data.files) ? data.files : [];
   } catch (err) {
     console.error('Impossible de charger la liste VCF', err);
@@ -95,6 +121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const name = document.getElementById('contact-name').value.trim();
     const email = document.getElementById('contact-email').value.trim();
     const phone = document.getElementById('contact-phone').value.trim();
+    const organization = (document.getElementById('contact-organization')?.value || '').trim();
 
     if (!name) {
       status.textContent = 'Le nom est requis.';
@@ -113,7 +140,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const response = await fetch('/contacts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, phone })
+        body: JSON.stringify({ name, email, phone, organization })
       });
 
       if (!response.ok) {

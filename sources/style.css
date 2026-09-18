@@ -71,3 +71,45 @@ h1{margin:0 0 8px;font-size:20px}
 /* Champ invalide */
 .invalid{border-color:#e05a5a!important;box-shadow:0 0 0 3px rgba(224,90,90,0.07)}
 
+/* Responsive improvements */
+@media (max-width:900px){
+	.container{padding:20px;max-width:640px}
+	h1{font-size:18px}
+	.vcf-title{font-size:15px}
+}
+
+@media (max-width:720px){
+	.container{padding:18px}
+	.vcf-card{padding:14px;gap:12px;flex-direction:column;align-items:flex-start}
+	.vcf-card-right{display:flex;flex-direction:row;gap:8px;margin-top:8px;width:100%;justify-content:flex-end}
+	.download-btn{margin-left:0;flex:0 0 auto}
+	.search-input{font-size:13px;padding:9px}
+	.upload-section{padding:12px}
+	.upload-section input{font-size:14px;padding:9px}
+}
+
+@media (max-width:480px){
+	body{padding:12px}
+	.container{padding:14px;border-radius:8px}
+	h1{font-size:17px}
+	.vcf-card{padding:12px}
+	.vcf-title{font-size:14px}
+	.vcf-meta{font-size:12px}
+	.vcf-card-right{width:100%;display:flex;justify-content:flex-end}
+	.download-btn{width:100%;padding:10px;border-radius:8px}
+	.form-actions{gap:8px}
+	.submit-area{margin-top:10px}
+	.submit-area button{width:100%}
+}
+
+@media (max-width:360px){
+	.container{padding:12px}
+	.search-input{padding:8px;font-size:13px}
+	.upload-section input{padding:8px}
+	.vcf-title{font-size:13px}
+	.download-btn{padding:9px}
+}
+
+/* Ensure inputs and buttons don't overflow on very small screens */
+input, button, .download-btn { max-width:100%; box-sizing:border-box }
+

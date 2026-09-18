@@ -50,7 +50,7 @@ function splitName(fullName) {
   return { firstName: parts.slice(0, -1).join(' '), lastName: parts[parts.length - 1] };
 }
 
-function makeVCard({ name, email, phone, organization = 'AMINUM' }) {
+function makeVCard({ name, email, phone, organization = '' }) {
   const { firstName, lastName } = splitName(name);
   const lines = [
     'BEGIN:VCARD',
@@ -164,13 +164,14 @@ app.post('/contacts', async (req, res) => {
   const name = String(req.body?.name || '').trim();
   const email = String(req.body?.email || '').trim();
   const phone = String(req.body?.phone || '').trim();
+  const organization = String(req.body?.organization || '').trim();
 
   if (!name) return res.status(400).send('Le nom est requis');
   if (!validateEmail(email)) return res.status(400).send('Email invalide');
   if (!validatePhone(phone)) return res.status(400).send('Numéro de téléphone invalide');
 
   try {
-    const vcard = makeVCard({ name, email, phone });
+    const vcard = makeVCard({ name, email, phone, organization });
     const filename = await uniqueFilename(safeFilename(name));
     const result = await pool.query(
       `INSERT INTO contacts (name, email, phone, filename, vcard)
