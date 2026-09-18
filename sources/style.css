@@ -1,0 +1,73 @@
+:root{--bg:#f7f7fb;--card:#fff;--accent:#2b6df6;--muted:#666}
+*{box-sizing:border-box;font-family:Inter,system-ui,Segoe UI,Arial,sans-serif}
+body{background:var(--bg);margin:0;display:flex;min-height:100vh;align-items:center;justify-content:center}
+.container{background:var(--card);padding:28px;border-radius:10px;box-shadow:0 6px 18px rgba(16,24,40,.08);width:100%;max-width:720px}
+h1{margin:0 0 8px;font-size:20px}
+.vcf-list{list-style:none;padding:0;margin:12px 0}
+.vcf-list li{padding:0;margin:0 0 24px;background:transparent;border:0}
+.vcf-card{display:flex;align-items:center;justify-content:space-between;padding:18px;border-radius:10px;background:#fff;border:1px solid #eef1f8;gap:22px}
+.vcf-card-left{display:flex;flex-direction:column;flex:1;min-width:0}
+.vcf-title{font-size:16px;font-weight:700;color:#111;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vcf-meta{font-size:13px;color:var(--muted)}
+.download-btn{background:var(--accent);color:#fff;padding:8px 12px;border-radius:8px;text-decoration:none;font-weight:600;border:0;margin-left:12px}
+.download-btn:hover{filter:brightness(.95)}
+.search-input{width:100%;padding:10px 12px;border-radius:8px;border:1px solid #dfe7ff;margin:10px 0;font-size:14px}
+.visually-hidden{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px);white-space:nowrap}
+
+/* Upload / create vCard */
+.upload-section{background:#fff;border:1px solid #eef1f8;padding:14px;border-radius:10px;margin:12px 0 18px}
+.upload-section h2{margin:0 0 8px;font-size:15px;color:#111}
+.upload-section label{display:block;font-size:13px;color:var(--muted);margin:8px 0 6px}
+.upload-section input[type="text"],
+.upload-section input[type="email"],
+.upload-section input[type="tel"],
+.upload-section input[type="file"]{
+	width:100%;padding:10px 12px;border-radius:8px;border:1px solid #dfe7ff;font-size:14px;background:transparent
+}
+.form-actions{display:flex;flex-direction:column;gap:10px;margin-top:12px}
+#form-actions-button-base
+.form-actions button{padding:10px 12px;border-radius:8px;font-weight:600;border:0;width:auto;align-self:flex-start}
+.form-actions button[type="submit"]{background:var(--accent);color:#fff}
+.form-actions button[type="button"]{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.form-actions button:hover{filter:brightness(.98)}
+
+/* Cursor + transitions pour tous les boutons */
+.form-actions button,
+.submit-area button,
+.download-btn{
+	cursor: pointer;
+	transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+
+/* Hover / focus / active */
+.form-actions button:hover,
+.submit-area button:hover,
+.download-btn:hover{
+	transform: translateY(-2px);
+	box-shadow: 0 8px 20px rgba(16,24,40,0.08);
+}
+.form-actions button:active,
+.submit-area button:active,
+.download-btn:active{
+	transform: translateY(0) scale(.995);
+}
+.form-actions button:focus,
+.submit-area button:focus,
+.download-btn:focus{
+	outline: none;
+	box-shadow: 0 0 0 4px rgba(43,109,246,0.12);
+}
+
+#upload-status{margin-top:8px;font-size:13px;color:var(--muted);min-height:18px}
+
+@media (max-width:540px){
+	.vcf-card{flex-direction:column;align-items:flex-start}
+}
+
+/* Bouton submit placé hors de la rubrique de création */
+.submit-area{display:flex;justify-content:flex-start;margin-top:12px}
+.submit-area button{padding:10px 12px;border-radius:8px;font-weight:600;border:0;background:var(--accent);color:#fff}
+
+/* Champ invalide */
+.invalid{border-color:#e05a5a!important;box-shadow:0 0 0 3px rgba(224,90,90,0.07)}
+

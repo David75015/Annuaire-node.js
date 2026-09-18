@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<title>Annuaire — vCards</title>
+	<link rel="stylesheet" href="sources/style.css">
+</head>
+<body>
+	<main class="container">
+		<h1>Annuaire des vCards</h1>
+		<p>Sélectionnez une vCard à télécharger.</p>
+
+		<!-- Formulaire d'ajout d'une carte VCF -->
+		<form id="vcf-upload-form" enctype="multipart/form-data">
+			<section class="upload-section">
+				<h2>Ajouter une vCard</h2>
+				<label for="contact-name">Nom complet</label>
+				<input id="contact-name" name="name" type="text" required />
+				<label for="contact-email">Email</label>
+				<input id="contact-email" name="email" type="email" />
+				<label for="contact-phone">Téléphone</label>
+				<input id="contact-phone" name="phone" type="tel" inputmode="numeric" pattern="[0-9]*" maxlength="15" placeholder="Ex: 0612345678" />
+
+				<div class="form-actions">
+					<button id="create-vcf" type="button">Générer la vCard</button>
+				</div>
+				<div id="upload-status" role="status" aria-live="polite"></div>
+			</section>
+
+			<div class="submit-area">
+				<input id="vcf-file-input" name="vcf" type="file" accept=".vcf" style="display:none" />
+				<button id="add-vcard" type="button">Ajouter la vCard</button>
+			</div>
+		</form>
+
+		<label for="search" class="visually-hidden">Recherche</label>
+		<input id="search" type="search" placeholder="Rechercher une carte (nom, partie du nom)..." class="search-input" />
+		<ul id="vcf-list" class="vcf-list" aria-live="polite"></ul>
+	</main>
+
+	<script src="sources/script.js"></script>
+</body>
+</html>
+
